@@ -7,6 +7,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+    val horoscopeList = listOf(
+
+        Horoscope("aries", R.drawable.aries_icon, R.string.horoscope_name_aries.toString(), R.string.horoscope_date_aries.toString()
+        )
+    )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
