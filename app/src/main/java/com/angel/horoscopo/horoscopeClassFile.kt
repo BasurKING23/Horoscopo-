@@ -5,14 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.motion.widget.MotionScene.Transition.TransitionOnClick
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class HoroscopeAdapter(val items: List<Horoscope>) : Adapter<horoscopeViewFolder>() {
+class HoroscopeAdapter(
+    val items: List<Horoscope>
+    val onClick: (Int) -> Unit) : Adapter<horoscopeViewFolder>() {
 
     override fun onBindViewHolder(holder: horoscopeViewFolder, position: Int) {
         val horoscope = items[position]
         holder.render(horoscope)
+        holder.itemView.SetOnClickListener {
+            onClick(position)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): horoscopeViewFolder {

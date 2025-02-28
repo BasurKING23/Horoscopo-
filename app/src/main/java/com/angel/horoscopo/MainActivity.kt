@@ -1,5 +1,7 @@
 package com.angel.horoscopo
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -41,7 +43,12 @@ class MainActivity : AppCompatActivity() {
         }
         recycleView = findViewById(R.id.recyclerView)
 
-        val adapter =  HoroscopeAdapter (horoscopeList)
+        val adapter =  HoroscopeAdapter (horoscopeList) { position ->
+        val horoscope = horoscopeList[position]
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("horoscope_ID_EXTRA",horoscope.id)
+        startActivity(intent)
+        }
 
         recycleView.adapter = adapter
         recycleView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
