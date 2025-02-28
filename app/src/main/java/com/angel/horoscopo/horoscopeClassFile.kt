@@ -9,14 +9,12 @@ import androidx.constraintlayout.motion.widget.MotionScene.Transition.Transition
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class HoroscopeAdapter(
-    val items: List<Horoscope>
-    val onClick: (Int) -> Unit) : Adapter<horoscopeViewFolder>() {
+class HoroscopeAdapter(val items: List<Horoscope>, val onClick: (Int) -> Unit) : Adapter<horoscopeViewFolder>() {
 
     override fun onBindViewHolder(holder: horoscopeViewFolder, position: Int) {
         val horoscope = items[position]
         holder.render(horoscope)
-        holder.itemView.SetOnClickListener {
+        holder.itemView.setOnClickListener {
             onClick(position)
         }
     }
