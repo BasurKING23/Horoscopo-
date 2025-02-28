@@ -1,9 +1,10 @@
 package com.angel.horoscopo
 
-class Horoscope (val id: String,
-                 val icon:Int,
-                 val name: String,
-                 val date: String
+class Horoscope (
+    val id: String,
+    val name: Int,
+    val date: Int,
+    val icon: Int
 ) {
 
 }
