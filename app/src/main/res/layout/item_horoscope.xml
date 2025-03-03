@@ -32,7 +32,8 @@
                     android:text="Nombre"
                     android:textSize="30sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:padding="3dp"/>
 
                 <TextView
                     android:id="@+id/datesTextView"
@@ -41,7 +42,8 @@
                     android:layout_gravity="center"
                     android:text="Fechas"
                     android:textSize="24sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:padding="3dp"/>
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
