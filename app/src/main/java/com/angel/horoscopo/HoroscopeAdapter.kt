@@ -8,9 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class HoroscopeAdapter(val items: List<Horoscope>, val onClick: (Int) -> Unit) : Adapter<horoscopeViewFolder>() {
+class HoroscopeAdapter(val items: List<Horoscope>, val onClick: (Int) -> Unit) : Adapter<HoroscopeViewFolder>() {
 
-    override fun onBindViewHolder(holder: horoscopeViewFolder, position: Int) {
+    override fun onBindViewHolder(holder: HoroscopeViewFolder, position: Int) {
         val horoscope = items[position]
         holder.render(horoscope)
         holder.itemView.setOnClickListener {
@@ -18,9 +18,9 @@ class HoroscopeAdapter(val items: List<Horoscope>, val onClick: (Int) -> Unit) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): horoscopeViewFolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoroscopeViewFolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_horoscope, parent,false)
-        return  horoscopeViewFolder(view)
+        return  HoroscopeViewFolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -28,7 +28,7 @@ class HoroscopeAdapter(val items: List<Horoscope>, val onClick: (Int) -> Unit) :
     }
 }
 
-class  horoscopeViewFolder (view: View): ViewHolder (view) {
+class  HoroscopeViewFolder (view: View): ViewHolder (view) {
 
     val iconImageView: ImageView = view.findViewById(R.id.iconImageView)
     val nameTextView: TextView = view.findViewById(R.id.nameTextView)

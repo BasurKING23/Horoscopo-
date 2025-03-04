@@ -2,6 +2,9 @@ package com.angel.horoscopo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -40,7 +43,29 @@ class DetailActivity : AppCompatActivity() {
         loadData()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_detail, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.favorite -> {
+                Log.i("MENU", "Menu favorito")
+                true
+            }
+            R.id.share -> {
+                Log.i("MENU", "Menu compartir")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
         private fun loadData () {
+            supportActionBar?.setTitle(horoscope.name)
+            supportActionBar?.setSubtitle(horoscope.date)
+
+
             iconImageView.setImageResource(horoscope.icon)
             nameTextView.text = getString(horoscope.name)
             dateTextView.text = getString(horoscope.date)
