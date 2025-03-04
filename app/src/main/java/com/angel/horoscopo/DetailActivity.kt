@@ -14,6 +14,7 @@ class DetailActivity : AppCompatActivity() {
     lateinit var iconImageView: ImageView
     lateinit var nameTextView: TextView
     lateinit var dateTextView: TextView
+    lateinit var horoscope: Horoscope
 
     companion object{
         const val  EXTRA_HOROSCOPE_ID = "horoscope_id"
@@ -33,15 +34,22 @@ class DetailActivity : AppCompatActivity() {
         }
 
         val id = intent.getStringExtra(EXTRA_HOROSCOPE_ID)!!
+        horoscope = Horoscope.findById(id)
 
-        val horoscope = Horoscope.findById(id)
+        initView()
+        loadData()
+    }
 
+        private fun loadData () {
+            iconImageView.setImageResource(horoscope.icon)
+            nameTextView.text = getString(horoscope.name)
+            dateTextView.text = getString(horoscope.date)
+        }
+
+    private fun initView () {
         nameTextView = findViewById(R.id.nameTextView)
         dateTextView = findViewById(R.id.datesTextView)
         iconImageView = findViewById(R.id.iconImageView)
 
-        iconImageView.setImageResource(horoscope.icon)
-        nameTextView.text = getString(horoscope.name)
-        dateTextView.text = getString(horoscope.date)
     }
 }

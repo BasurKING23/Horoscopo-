@@ -6,7 +6,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/black">
 
 
     <TextView
@@ -15,7 +16,8 @@
         android:layout_height="wrap_content"
         android:text="Nombre"
         android:textSize="30sp"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/datesTextView"
@@ -23,7 +25,8 @@
         android:layout_height="wrap_content"
         android:text="Fecha"
         android:textSize="30sp"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textColor="@color/white"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -32,7 +35,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:textColor="@color/white">
 
             <ImageView
                 android:id="@+id/iconImageView"
@@ -41,7 +45,7 @@
                 android:padding="23dp"
                 android:src="@drawable/aries_icon"
                 android:layout_gravity="center"
-                android:alpha="0.2"/>
+                android:alpha="0.4"/>
 
 
         </LinearLayout>
@@ -55,7 +59,7 @@
             android:textAlignment="center"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
 
     </FrameLayout>
 
