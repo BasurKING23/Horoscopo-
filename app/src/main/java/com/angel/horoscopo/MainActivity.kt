@@ -17,6 +17,23 @@ class MainActivity : AppCompatActivity() {
     var horoscopeList: List<Horoscope> = Horoscope.horoscopeList
 
     lateinit var recyclerView: RecyclerView
+    lateinit var adapter: HoroscopeAdapter
+
+    override fun onResume() {
+        super.onResume()
+
+        adapter = HoroscopeAdapter(horoscopeList) { position ->
+            val horoscope = horoscopeList[position]
+
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.EXTRA_HOROSCOPE_ID, horoscope.id)
+            startActivity(intent)
+        }
+
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,18 +48,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        recyclerView = findViewById(R.id.recyclerView)
-
-        val adapter = HoroscopeAdapter(horoscopeList) { position ->
-            val horoscope = horoscopeList[position]
-
-            val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.EXTRA_HOROSCOPE_ID, horoscope.id)
-            startActivity(intent)
-        }
-
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -57,12 +62,14 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
 
-            override fun onQueryTextChange(s: String): Boolean {
-                Log.i("MENU", s)
+            override fun onQueryTextChange(query: String): Boolean {
+                horoscopeList = Horoscope.horoscopeList.filter {
+                    getString(it.name).contains(query, true)
+                }
+                adapter.updateItems(horoscopeList)
                 return false
             }
         })
-
         return true
     }
 }

@@ -1,6 +1,7 @@
 package com.angel.horoscopo
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -18,9 +19,12 @@ class DetailActivity : AppCompatActivity() {
     lateinit var nameTextView: TextView
     lateinit var dateTextView: TextView
     lateinit var horoscope: Horoscope
+    var isFavorite = false
+    lateinit var favoriteMenu: MenuItem
+    lateinit var sessionManager: SessionManager
 
-    companion object{
-        const val  EXTRA_HOROSCOPE_ID = "horoscope_id"
+    companion object {
+        const val EXTRA_HOROSCOPE_ID = "horoscope_id"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +40,8 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
+        sessionManager = SessionManager(this)
+
         val id = intent.getStringExtra(EXTRA_HOROSCOPE_ID)!!
         horoscope = Horoscope.findById(id)
 
@@ -45,36 +51,62 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_activity_detail, menu)
+
+        favoriteMenu = menu!!.findItem(R.id.action_favorite)
+        setFavoriteIcon()
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.favorite -> {
-                Log.i("MENU", "Menu favorito")
+            R.id.action_favorite -> {
+                isFavorite = !isFavorite
+                if (isFavorite) {
+                    sessionManager.setFavorite(horoscope.id)
+                } else {
+                    sessionManager.setFavorite("")
+                }
+                setFavoriteIcon()
                 true
             }
-            R.id.share -> {
-                Log.i("MENU", "Menu compartir")
+
+            R.id.action_share -> {
+                val sendIntent = Intent()
+                sendIntent.setAction(Intent.ACTION_SEND)
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+                sendIntent.setType("text/plain")
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
-        private fun loadData () {
-            supportActionBar?.setTitle(horoscope.name)
-            supportActionBar?.setSubtitle(horoscope.date)
 
+    private fun loadData() {
+        supportActionBar?.setTitle(horoscope.name)
+        supportActionBar?.setSubtitle(horoscope.date)
 
-            iconImageView.setImageResource(horoscope.icon)
-            nameTextView.text = getString(horoscope.name)
-            dateTextView.text = getString(horoscope.date)
-        }
+        iconImageView.setImageResource(horoscope.icon)
+        nameTextView.text = getString(horoscope.name)
+        dateTextView.text = getString(horoscope.date)
+        isFavorite = sessionManager.isFavorite(horoscope.id)
+    }
 
-    private fun initView () {
+    private fun initView() {
         nameTextView = findViewById(R.id.nameTextView)
         dateTextView = findViewById(R.id.datesTextView)
         iconImageView = findViewById(R.id.iconImageView)
+    }
 
+    private fun setFavoriteIcon() {
+        if (isFavorite) {
+            favoriteMenu.setIcon(R.drawable.favorite_selected)
+        } else {
+            favoriteMenu.setIcon(R.drawable.favorite)
+        }
     }
 }

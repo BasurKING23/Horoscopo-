@@ -29,7 +29,7 @@
 
 
     <string name="action_favorite">Favorite</string>
-    <string name="share">Share</string>
-    <string name="search">Search</string>
+    <string name="action_share">Share</string>
+    <string name="action_search">Search</string>
 
 </resources>
