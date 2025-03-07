@@ -62,15 +62,9 @@ class DetailActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_favorite -> {
                 isFavorite = !isFavorite
-                if (isFavorite) {
-                    sessionManager.setFavorite(horoscope.id)
-                } else {
-                    sessionManager.setFavorite("")
-                }
-                setFavoriteIcon()
+                sessionManager.setFavorite(horoscope.id, isFavorite)
                 true
             }
-
             R.id.action_share -> {
                 val sendIntent = Intent()
                 sendIntent.setAction(Intent.ACTION_SEND)

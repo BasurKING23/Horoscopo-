@@ -6,17 +6,13 @@ class SessionManager(context: Context) {
 
     private val sharedPref = context.getSharedPreferences("zodiac_session", Context.MODE_PRIVATE)
 
-    fun setFavorite(id: String) {
+    fun setFavorite(id: String, favorite: Boolean ) {
         val editor = sharedPref.edit()
-        editor.putString("favorite", id)
+        editor.putBoolean(id, favorite)
         editor.apply()
     }
 
-    fun getFavorite(): String {
-        return sharedPref.getString("favorite", "")!!
-    }
-
     fun isFavorite(id: String): Boolean {
-        return id == getFavorite()
+        return sharedPref.getBoolean(id, false)
     }
 }
