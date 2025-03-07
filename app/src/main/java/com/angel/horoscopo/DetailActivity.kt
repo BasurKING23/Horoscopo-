@@ -103,7 +103,6 @@ class DetailActivity : AppCompatActivity() {
 
     private fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         nameTextView = findViewById(R.id.nameTextView)
         dateTextView = findViewById(R.id.datesTextView)
         iconImageView = findViewById(R.id.iconImageView)
