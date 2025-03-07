@@ -7,10 +7,13 @@ import android.view.Menu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,43 +36,44 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
     }
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+            enableEdgeToEdge()
 
-        enableEdgeToEdge()
+            setContentView(R.layout.activity_main)
 
-        setContentView(R.layout.activity_main)
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+                insets
+            }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
         }
 
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_activity_main, menu)
+        override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+            menuInflater.inflate(R.menu.menu_activity_main, menu)
 
-        val menuItem = menu?.findItem(R.id.search)
-        val searchView = menuItem?.actionView as SearchView
+            val menuItem = menu?.findItem(R.id.search)
+            val searchView = menuItem?.actionView as SearchView
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                Log.i("MENU", "He pulsado Enter")
-                return false
-            }
-
-            override fun onQueryTextChange(query: String): Boolean {
-                horoscopeList = Horoscope.horoscopeList.filter {
-                    getString(it.name).contains(query, true)
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    Log.i("MENU", "He pulsado Enter")
+                    return false
                 }
-                adapter.updateItems(horoscopeList)
-                return false
-            }
-        })
-        return true
+
+                override fun onQueryTextChange(query: String): Boolean {
+                    horoscopeList = Horoscope.horoscopeList.filter {
+                        getString(it.name).contains(query, true)
+                    }
+                    adapter.updateItems(horoscopeList)
+                    return false
+                }
+            })
+            return true
+        }
     }
-}
