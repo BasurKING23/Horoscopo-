@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="menu_color">#000000</color>
     <color name="vcard">#B4F2B12F</color>
     <color name="favorite">#B4FF0000</color>
 </resources>

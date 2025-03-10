@@ -12,4 +12,5 @@
         android:icon="@drawable/share_icon"
         android:title="@string/action_share"
         app:showAsAction="always"/>
+
 </menu>

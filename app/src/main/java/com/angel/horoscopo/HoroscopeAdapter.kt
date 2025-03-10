@@ -36,14 +36,14 @@ class  HoroscopeViewFolder (view: View): ViewHolder (view) {
 
     val iconImageView: ImageView = view.findViewById(R.id.iconImageView)
     val nameTextView: TextView = view.findViewById(R.id.nameTextView)
-    val datesTextView: TextView = view.findViewById(R.id.datesTextView)
+   // val datesTextView: TextView = view.findViewById(R.id.datesTextView)
     val favorite_active: ImageView = view.findViewById(R.id.favorite_active)
 
 
     fun render(horoscope: Horoscope){
     iconImageView.setImageResource(horoscope.icon)
     nameTextView.setText(horoscope.name)
-    datesTextView.setText(horoscope.date)
+    //datesTextView.setText(horoscope.date)
 
         if (SessionManager(itemView.context).isFavorite(horoscope.id)) {
             favorite_active.visibility = View.VISIBLE

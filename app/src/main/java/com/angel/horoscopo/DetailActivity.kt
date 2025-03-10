@@ -63,6 +63,7 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_favorite -> {
                 isFavorite = !isFavorite
                 sessionManager.setFavorite(horoscope.id, isFavorite)
+                setFavoriteIcon()
                 true
             }
             R.id.action_share -> {
@@ -90,15 +91,15 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setSubtitle(horoscope.date)
 
         iconImageView.setImageResource(horoscope.icon)
-        nameTextView.text = getString(horoscope.name)
-        dateTextView.text = getString(horoscope.date)
+    //    nameTextView.text = getString(horoscope.name)
+    //    dateTextView.text = getString(horoscope.date)
         isFavorite = sessionManager.isFavorite(horoscope.id)
     }
 
     private fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        nameTextView = findViewById(R.id.nameTextView)
-        dateTextView = findViewById(R.id.datesTextView)
+    //    nameTextView = findViewById(R.id.nameTextView)
+    //    dateTextView = findViewById(R.id.datesTextView)
         iconImageView = findViewById(R.id.iconImageView)
     }
 
