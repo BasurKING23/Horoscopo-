@@ -12,6 +12,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 class DetailActivity : AppCompatActivity() {
 
@@ -110,4 +118,37 @@ class DetailActivity : AppCompatActivity() {
             favoriteMenu.setIcon(R.drawable.favorite)
         }
     }
+    private fun getHoroscopeLuck () {
+        CoroutineScope(Dispatchers.IO).launch {
+
+            try{
+                val url = URL("https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=$EXTRA_HOROSCOPE_ID&day=TODAY")
+                urlConnection = url.openConnection() as HttpsURLConnection
+
+                if (urlConnection.responseCode == 200) {
+                    val rd = BufferedReader(InputStreamReader(urlConnection.inputStream))
+                    var line: String?
+                    val stringBuilder = StringBuilder()
+                    while ((rd.readLine().also { line = it }) != null) {
+                        stringBuilder.append(line)
+                    }
+                    val result = stringBuilder.toString()
+                    Log.i(tag"HTTP",result)
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+
+}
+                return null;
+
+                var urlConnection: HttpsURLConnection? = null
+
+
+            }
+    }
+
 }
