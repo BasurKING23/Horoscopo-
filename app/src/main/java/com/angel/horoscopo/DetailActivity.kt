@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -30,6 +31,8 @@ class DetailActivity : AppCompatActivity() {
     var isFavorite = false
     lateinit var favoriteMenu: MenuItem
     lateinit var sessionManager: SessionManager
+    lateinit var horoscopeLuckTextView: TextView
+
 
     companion object {
         const val EXTRA_HOROSCOPE_ID = "horoscope_id"
@@ -57,41 +60,20 @@ class DetailActivity : AppCompatActivity() {
         loadData()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_activity_detail, menu)
-
-        favoriteMenu = menu!!.findItem(R.id.action_favorite)
-        setFavoriteIcon()
-
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_favorite -> {
-                isFavorite = !isFavorite
-                sessionManager.setFavorite(horoscope.id, isFavorite)
-                setFavoriteIcon()
-                true
-            }
-            R.id.action_share -> {
-                val sendIntent = Intent()
-                sendIntent.setAction(Intent.ACTION_SEND)
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
-                sendIntent.setType("text/plain")
-
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                startActivity(shareIntent)
-                true
-            }
-
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
-                true
+                return true
             }
-
-            else -> super.onOptionsItemSelected(item)
+            else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun initView() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        iconImageView = findViewById(R.id.iconImageView)
+        horoscopeLuckTextView = findViewById(R.id.horoscopeLuckTextView)
     }
 
     private fun loadData() {
@@ -99,30 +81,17 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setSubtitle(horoscope.date)
 
         iconImageView.setImageResource(horoscope.icon)
-    //    nameTextView.text = getString(horoscope.name)
-    //    dateTextView.text = getString(horoscope.date)
         isFavorite = sessionManager.isFavorite(horoscope.id)
+        getHoroscopeLuck()
     }
 
-    private fun initView() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    //    nameTextView = findViewById(R.id.nameTextView)
-    //    dateTextView = findViewById(R.id.datesTextView)
-        iconImageView = findViewById(R.id.iconImageView)
-    }
-
-    private fun setFavoriteIcon() {
-        if (isFavorite) {
-            favoriteMenu.setIcon(R.drawable.favorite_selected)
-        } else {
-            favoriteMenu.setIcon(R.drawable.favorite)
-        }
-    }
-    private fun getHoroscopeLuck () {
+    private fun getHoroscopeLuck() {
         CoroutineScope(Dispatchers.IO).launch {
+            var urlConnection: HttpsURLConnection? = null
 
-            try{
-                val url = URL("https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=$EXTRA_HOROSCOPE_ID&day=TODAY")
+            try {
+                val url =
+                    URL("https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${horoscope.id}&day=TODAY")
                 urlConnection = url.openConnection() as HttpsURLConnection
 
                 if (urlConnection.responseCode == 200) {
@@ -133,22 +102,20 @@ class DetailActivity : AppCompatActivity() {
                         stringBuilder.append(line)
                     }
                     val result = stringBuilder.toString()
-                    Log.i(tag"HTTP",result)
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (urlConnection != null) {
-                        urlConnection.disconnect();
+                    val jsonObject = JSONObject(result)
+                    val horoscopeLuck = jsonObject.getJSONObject("data").getString("horoscope_data")
+
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        horoscopeLuckTextView.text = horoscopeLuck
                     }
-
-}
-                return null;
-
-                var urlConnection: HttpsURLConnection? = null
-
-
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                urlConnection?.disconnect()
             }
+        }
     }
-
-}
+        }

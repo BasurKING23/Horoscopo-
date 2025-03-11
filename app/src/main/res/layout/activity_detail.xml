@@ -44,22 +44,25 @@
                   android:padding="23dp"
                   android:src="@drawable/aries_icon"
                   android:layout_gravity="center"
-                  android:alpha="0.4"/>
+                  android:alpha="0.5"/>
 
 
           </LinearLayout>
 
           <TextView
-              android:id="@+id/description"
+              android:id="@+id/horoscopeLuckTextView"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="Signo"
-              android:textSize="40sp"
+              android:textSize="20sp"
               android:textAlignment="center"
+              android:text="info"
               android:layout_gravity="center"
               android:textStyle="bold"
-              android:textColor="@color/white"/>
+              android:textColor="@color/white"
+              android:justificationMode="inter_word"
+              android:padding="4dp"/>
 
       </FrameLayout>
+
 
   </LinearLayout>
