@@ -32,5 +32,8 @@
     <string name="action_share">Share</string>
     <string name="action_search">Search</string>
     <string name="action_back">Back</string>
+    <string name="action_month">month</string>
+    <string name="action_week">week</string>
+    <string name="action_day">day</string>
 
 </resources>

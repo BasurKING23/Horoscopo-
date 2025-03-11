@@ -82,6 +82,7 @@ class DetailActivity : AppCompatActivity() {
 
         iconImageView.setImageResource(horoscope.icon)
         isFavorite = sessionManager.isFavorite(horoscope.id)
+
         getHoroscopeLuck()
     }
 
@@ -118,4 +119,4 @@ class DetailActivity : AppCompatActivity() {
             }
         }
     }
-        }
+}
