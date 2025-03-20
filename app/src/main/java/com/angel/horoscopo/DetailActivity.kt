@@ -4,6 +4,7 @@ package com.angel.horoscopo
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.translation.Translator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +22,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
+import android.util.Log
+import com.google.mlkit.nl.translate.Translation
 
 class DetailActivity : AppCompatActivity() {
 
@@ -33,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
     lateinit var horoscopeLuckTextView: TextView
     lateinit var progressBar: LinearProgressIndicator
     lateinit var bottomNavigation: BottomNavigationView
+
 
 
     companion object {
@@ -131,8 +136,11 @@ class DetailActivity : AppCompatActivity() {
                     CoroutineScope(Dispatchers.Main).launch {
                         horoscopeLuckTextView.text = horoscopeLuck
                         progressBar.visibility = View.GONE
+                            // Llamar a la función de traducción
+                            translateHoroscope(horoscopeLuck)
+                        }
                     }
-                }
+
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
@@ -140,4 +148,29 @@ class DetailActivity : AppCompatActivity() {
             }
         }
     }
+    private fun translateHoroscope(text: String) {
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(com.google.mlkit.nl.translate.TranslateLanguage.ENGLISH)  // Idioma original
+            .setTargetLanguage(com.google.mlkit.nl.translate.TranslateLanguage.SPANISH) // Idioma destino
+            .build()
+
+        val translator: com.google.mlkit.nl.translate.Translator = Translation.getClient(options)
+
+        // Descargar el modelo si es necesario
+        translator.downloadModelIfNeeded()
+            .addOnSuccessListener {
+                // Traducir el texto cuando el modelo esté listo
+                translator.translate(text)
+                    .addOnSuccessListener { translatedText ->
+                        horoscopeLuckTextView.text = translatedText  // Mostrar traducción
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Translation", "Error al traducir: ${e.message}")
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Translation", "Error al descargar modelo: ${e.message}")
+            }
+    }
+
 }

@@ -37,6 +37,8 @@ android {
 
 dependencies {
 
+
+    implementation (libs.translate)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
