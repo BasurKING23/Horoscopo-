@@ -30,21 +30,35 @@
 
           </LinearLayout>
 
-          <TextView
-              android:id="@+id/horoscopeLuckTextView"
-              android:layout_width="wrap_content"
+          <ScrollView
+              android:layout_width="match_parent"
+              android:layout_height="621dp"
+              android:layout_marginTop="30dp">
+
+              <TextView
+                  android:id="@+id/horoscopeLuckTextView"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:justificationMode="inter_word"
+                  android:padding="4dp"
+                  android:textColor="@color/white"
+                  android:textSize="30sp"
+                  android:textStyle="bold"
+                  tools:text="info" />
+
+
+          </ScrollView>
+
+
+          <com.google.android.material.progressindicator.LinearProgressIndicator
+              android:id="@+id/progressBar"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:textSize="20sp"
-              android:textAlignment="center"
-              android:text="info"
-              android:layout_gravity="center"
-              android:textStyle="bold"
-              android:textColor="@color/white"
-              android:justificationMode="inter_word"
-              android:padding="4dp"/>
+              android:indeterminate="true"/>
+
 
           <com.google.android.material.bottomnavigation.BottomNavigationView
-              android:id="@+id/bottom_navigation"
+              android:id="@+id/bottom_navigationView"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               app:menu="@menu/menu_activity_detail_navigation"
@@ -53,4 +67,5 @@
       </FrameLayout>
 
 
-  </LinearLayout>
+
+</LinearLayout>

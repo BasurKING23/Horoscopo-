@@ -17,12 +17,12 @@ class HoroscopeAdapter(var items: List<Horoscope>, val onClick: (Int) -> Unit) :
         holder.itemView.setOnClickListener {
             onClick(position)
         }
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoroscopeViewFolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_horoscope, parent,false)
         return  HoroscopeViewFolder(view)
     }
-
     override fun getItemCount(): Int {
         return items.size
     }
@@ -36,14 +36,12 @@ class  HoroscopeViewFolder (view: View): ViewHolder (view) {
 
     val iconImageView: ImageView = view.findViewById(R.id.iconImageView)
     val nameTextView: TextView = view.findViewById(R.id.nameTextView)
-   // val datesTextView: TextView = view.findViewById(R.id.datesTextView)
     val favorite_active: ImageView = view.findViewById(R.id.favorite_active)
 
 
     fun render(horoscope: Horoscope){
     iconImageView.setImageResource(horoscope.icon)
     nameTextView.setText(horoscope.name)
-    //datesTextView.setText(horoscope.date)
 
         if (SessionManager(itemView.context).isFavorite(horoscope.id)) {
             favorite_active.visibility = View.VISIBLE
